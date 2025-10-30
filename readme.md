@@ -28,3 +28,4 @@ Execute localmente:
 ```bash
 npm ci
 npm test
+```
