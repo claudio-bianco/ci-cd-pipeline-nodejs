@@ -36,17 +36,6 @@ jobs:
       #   # seu npm test já usa --experimental-vm-modules e coverage v8 com threshold 100%
       #   run: npm test
 
-      # - name: Prepare Sonar cache dir
-      #   run: mkdir -p ~/.sonar/cache
-        
-      # - name: Cache SonarCloud packages
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: ~/.sonar/cache
-      #     key: ${{ runner.os }}-sonar
-      #     restore-keys: |
-      #       ${{ runner.os }}-sonar-
-
       - name: Run unit tests (with coverage threshold)
         run: npm test -- --coverage --coverageReporters=lcov --coverageReporters=text-summary
 
