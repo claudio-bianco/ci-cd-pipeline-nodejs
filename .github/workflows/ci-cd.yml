@@ -71,7 +71,7 @@ jobs:
             -Dsonar.tests=__tests__
             -Dsonar.test.inclusions=__tests__/**/*.js
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-            -Dsonar.coverage.exclusions=**/*.test.js,__tests__/**,public/**,jest.config.* ,**/*.mjs
+            -Dsonar.coverage.exclusions=**/*.test.js,__tests__/**,public/**,jest.config.*
 
   build_and_push:
     name: Build & Push Docker
