@@ -29,3 +29,5 @@ Execute localmente:
 npm ci
 npm test
 ```
+
+## 🧪 Heroku
