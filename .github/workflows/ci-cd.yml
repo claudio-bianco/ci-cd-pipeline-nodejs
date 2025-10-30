@@ -12,6 +12,8 @@ env:
   DOCKERHUB_NAMESPACE: ${{ vars.DOCKERHUB_NAMESPACE }}
   IMAGE_NAME: ${{ vars.IMAGE_NAME }}
   HEROKU_APP: ${{ vars.HEROKU_APP }}
+  SONAR_ORG: ${{ vars.SONAR_ORG }}
+  SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
 
 jobs:
   test:
@@ -30,25 +32,23 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      - name: Run unit tests (with coverage threshold)
-        # seu npm test já usa --experimental-vm-modules e coverage v8 com threshold 100%
-        run: npm test
+      # - name: Run unit tests (with coverage threshold)
+      #   # seu npm test já usa --experimental-vm-modules e coverage v8 com threshold 100%
+      #   run: npm test
 
-      - name: Prepare Sonar cache dir
-        run: mkdir -p ~/.sonar/cache
+      # - name: Prepare Sonar cache dir
+      #   run: mkdir -p ~/.sonar/cache
         
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: |
-            ${{ runner.os }}-sonar-
+      # - name: Cache SonarCloud packages
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: ~/.sonar/cache
+      #     key: ${{ runner.os }}-sonar
+      #     restore-keys: |
+      #       ${{ runner.os }}-sonar-
 
-      - name: Run SonarCloud analysis
-        uses: SonarSource/sonarcloud-github-action@v2
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Run unit tests (with coverage threshold)
+        run: npm test -- --coverage --coverageReporters=lcov --coverageReporters=text-summary
 
       - name: Upload coverage artifact
         if: always()
@@ -56,6 +56,22 @@ jobs:
         with:
           name: coverage
           path: coverage/
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }} # para PR decoration
+        with:
+          args: >
+            -Dsonar.organization=${{ env.SONAR_ORG }}
+            -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
+            -Dsonar.sources=.
+            -Dsonar.exclusions=**/node_modules/**,coverage/**,__tests__/**,Dockerfile,**/*.yml,**/*.yaml,public/**
+            -Dsonar.tests=__tests__
+            -Dsonar.test.inclusions=__tests__/**/*.js
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.coverage.exclusions=**/*.test.js,__tests__/**,public/**,jest.config.* ,**/*.mjs
 
   build_and_push:
     name: Build & Push Docker
