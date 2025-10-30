@@ -1,0 +1,128 @@
+# =========================
+# Node.js / NPM
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json.lock
+.env
+.env.*
+
+# =========================
+# Logs
+# =========================
+*.log
+logs/
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# =========================
+# Coverage (Jest / NYC)
+# =========================
+coverage/
+.nyc_output/
+lcov-report/
+
+# =========================
+# Build e cache
+# =========================
+dist/
+build/
+.cache/
+.tmp/
+.temp/
+.tmp-test/
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# =========================
+# Docker
+# =========================
+# Artefatos de build
+db.json
+db-backup*.json
+*.tar
+*.tgz
+
+# Volumes e arquivos gerados por container
+docker-compose.override.yml
+.docker/
+.dockerignore.lock
+docker-data/
+compose-cache/
+*.bak
+
+# =========================
+# Heroku / CI
+# =========================
+# Buildpacks e cache do Heroku
+.heroku/
+*.env
+.heroku-releases/
+
+# Cache e artefatos de CI/CD
+*.coverage.*
+*.lcov
+artifacts/
+*.out
+*.tap
+test-results/
+__tests__/output/
+.github/workflows/*.tmp
+
+# =========================
+# Sistema Operacional
+# =========================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.tmp
+*.temp
+*.bak
+*.old
+
+# =========================
+# Arquivos locais
+# =========================
+# Database e dados temporários do app
+*.sqlite
+*.sqlite3
+*.db
+*.json.tmp
+tmp/
+public/tmp/
+public/uploads/
+
+# =========================
+# IDEs e editores
+# =========================
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# =========================
+# Testes / Jest
+# =========================
+jest-cache/
+jest-test-results.json
+coverage-final.json
+__tests__/__output__/
+test-db.json
+.tmp/
+
+# =========================
+# Arquivos de sistema
+# =========================
+*.orig
+*.rej
+*.bak
+*.swp
+*.swo

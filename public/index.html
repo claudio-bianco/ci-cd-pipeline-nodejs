@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="pt-br" ng-app="todoApp">
+<head>
+  <meta charset="utf-8" />
+  <title>Todos (Node + JSON)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons (opcional) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    // API na mesma origem (ajuste se necessário)
+    window.API_URL = window.location.origin + '/api';
+  </script>
+</head>
+<body ng-controller="MainCtrl as vm" class="bg-light">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+        <i class="bi bi-check2-square"></i> Todos
+      </a>
+      <span class="navbar-text text-secondary small">
+        <span>version: {{ vm.version }}</span>
+      </span>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- Card de criação -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <form class="row g-2 align-items-center" ng-submit="vm.create()">
+          <div class="col-12 col-md-9">
+            <label for="newTitle" class="form-label mb-1">Novo item</label>
+            <input id="newTitle" type="text" class="form-control" placeholder="Ex.: Revisar PR #42"
+                   ng-model="vm.newTitle" required />
+          </div>
+          <div class="col-12 col-md-3 d-grid">
+            <label class="form-label mb-1 invisible">.</label>
+            <button class="btn btn-primary">
+              <i class="bi bi-plus-circle me-1"></i> Adicionar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Alertas -->
+    <div ng-if="vm.error" class="alert alert-danger d-flex align-items-center" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      <div>{{ vm.error }}</div>
+    </div>
+
+    <!-- Lista -->
+    <div class="card shadow-sm">
+      <div class="card-header bg-white">
+        <div class="d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Meus Todos</h5>
+          <button class="btn btn-outline-secondary btn-sm" ng-click="vm.refresh()">
+            <i class="bi bi-arrow-clockwise me-1"></i> Atualizar
+          </button>
+        </div>
+      </div>
+      <div class="list-group list-group-flush" ng-if="vm.todos.length">
+        <div class="list-group-item" ng-repeat="t in vm.todos track by t.id">
+          <div class="d-flex align-items-start gap-3">
+            <div class="form-check mt-1">
+              <input class="form-check-input" type="checkbox" id="todo{{t.id}}"
+                     ng-model="t.done" ng-change="vm.toggleDone(t)">
+            </div>
+
+            <div class="flex-grow-1">
+              <!-- Modo visualização -->
+              <div ng-if="!t._editing" class="d-flex flex-column flex-md-row justify-content-between">
+                <div>
+                  <span ng-class="{'text-decoration-line-through text-muted': t.done}">
+                    {{ t.title }}
+                  </span>
+                  <span class="badge ms-2" ng-class="t.done ? 'bg-success' : 'bg-warning text-dark'">
+                    {{ t.done ? 'Feito' : 'Pendente' }}
+                  </span>
+                </div>
+                <small class="text-secondary mt-1 mt-md-0">
+                  Criado em: {{ t.created_at }}
+                </small>
+              </div>
+
+              <!-- Modo edição -->
+              <div ng-if="t._editing" class="row g-2 mt-2">
+                <div class="col-12 col-md-8">
+                  <input type="text" class="form-control" ng-model="t._title" />
+                </div>
+                <div class="col-12 col-md-4 d-grid d-md-flex gap-2">
+                  <button class="btn btn-success" ng-click="vm.save(t)">
+                    <i class="bi bi-check-lg me-1"></i> Salvar
+                  </button>
+                  <button class="btn btn-outline-secondary" ng-click="t._editing=false">
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row gap-2">
+              <button class="btn btn-outline-primary btn-sm" ng-if="!t._editing" ng-click="vm.edit(t)">
+                <i class="bi bi-pencil-square me-1"></i> Editar
+              </button>
+              <button class="btn btn-outline-danger btn-sm" ng-click="vm.remove(t)">
+                <i class="bi bi-trash3 me-1"></i> Excluir
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body text-center text-secondary" ng-if="!vm.todos.length">
+        <i class="bi bi-inbox fs-2 d-block mb-2"></i>
+        Nada por aqui ainda. Crie seu primeiro item!
+      </div>
+    </div>
+  </main>
+
+  <!-- Bootstrap JS (opcional, para componentes como offcanvas/modal) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+
+  <script src="app.js"></script>
+</body>
+</html>

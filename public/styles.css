@@ -1,0 +1,30 @@
+/* Texto concluído já fica riscado via classe bootstrap, mas reforçamos contraste */
+.text-decoration-line-through { opacity: .7; }
+
+/* Espaçamento em telas pequenas */
+@media (max-width: 576px) {
+  .navbar .navbar-brand { font-size: 1rem; }
+}
+
+/* 
+footer {
+  padding:16px 24px;
+  border-top:1px solid #22304e;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+footer .muted {
+  color:var(--muted);
+  font-size:13px;
+}
+ */
+
+.footer {
+  background-color: #f0f0f0;
+  text-align: center;
+  padding: 20px;
+  bottom: 0; /* Posiciona no final */
+  width: 100%; /* Ocupa toda a largura */
+  position: sticky; /* Fixa o rodapé */
+}
