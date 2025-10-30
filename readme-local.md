@@ -73,3 +73,18 @@ docker compose down -v && docker compose up -d --build
 docker compose build --no-cache
 docker compose up -d
 ```
+
+## cURL para testar
+
+```bash
+# Listar
+curl -i https://app-nodejs-web-f71ea7759970.herokuapp.com/api/todos
+# Criar
+curl -i -X POST https://app-nodejs-web-f71ea7759970.herokuapp.com/api/todos -H "Content-Type: application/json" -d '{"title":"Item via curl","done":false}'
+# Buscar
+curl -i https://app-nodejs-web-f71ea7759970.herokuapp.com/api/todos/1
+# Atualizar
+curl -i -X PUT https://app-nodejs-web-f71ea7759970.herokuapp.com/api/todos/1 -H "Content-Type: application/json" -d '{"title":"Atualizado","done":true}'
+# Excluir
+curl -i -X DELETE https://app-nodejs-web-f71ea7759970.herokuapp.com/api/todos/1
+```
