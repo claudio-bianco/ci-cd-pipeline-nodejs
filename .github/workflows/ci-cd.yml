@@ -9,9 +9,9 @@ on:
 
 # Variáveis globais (edite para seu namespace)
 env:
-  DOCKERHUB_NAMESPACE: seu-usuario-dockerhub
-  IMAGE_NAME: node-todos-json
-  HEROKU_APP: seu-app-no-heroku
+  DOCKERHUB_NAMESPACE: ${{ vars.DOCKERHUB_NAMESPACE }}
+  IMAGE_NAME: ${{ vars.IMAGE_NAME }}
+  HEROKU_APP: ${{ vars.HEROKU_APP }}
 
 jobs:
   test:
