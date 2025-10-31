@@ -147,6 +147,10 @@ jobs:
           # Se sua conta NR for EU, descomente:
           # heroku config:set NEW_RELIC_HOST=eu01.nr-data.net --app ${{ env.HEROKU_APP }}      
 
+      - name: Docker login (Heroku Registry)
+        run: |
+          echo "${{ secrets.HEROKU_API_KEY }}" | docker login --username=_ --password-stdin registry.heroku.com
+
       - name: Extract version from package.json
         id: meta
         run: |
@@ -154,10 +158,6 @@ jobs:
           SHA7=${GITHUB_SHA::7}
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "sha7=$SHA7" >> $GITHUB_OUTPUT
-
-      - name: Docker login (Heroku Registry)
-        run: |
-          echo "${{ secrets.HEROKU_API_KEY }}" | docker login --username=_ --password-stdin registry.heroku.com
 
       - name: Pull image from Docker Hub
         run: |
@@ -174,10 +174,6 @@ jobs:
       - name: Push to Heroku registry
         run: |
           docker push "registry.heroku.com/${{ env.HEROKU_APP }}/web"
-
-      # - name: Install Heroku CLI
-      #   run: |
-      #     curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
 
       - name: Release on Heroku
         env:

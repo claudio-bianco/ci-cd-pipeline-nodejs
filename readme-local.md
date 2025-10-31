@@ -87,4 +87,35 @@ curl -i https://app-nodejs-web-f71ea7759970.herokuapp.com/api/todos/1
 curl -i -X PUT https://app-nodejs-web-f71ea7759970.herokuapp.com/api/todos/1 -H "Content-Type: application/json" -d '{"title":"Atualizado","done":true}'
 # Excluir
 curl -i -X DELETE https://app-nodejs-web-f71ea7759970.herokuapp.com/api/todos/1
+# testar API
+curl -s https://app-nodejs-todos-api-fa19f18dd56e.herokuapp.com/api/health
+```
+
+
+## cURL em laço
+
+```bash
+for i in $(seq 1 500); do
+  echo "Requisição $i"
+  curl -s -o /dev/null -w "%{http_code}\n" https://app-nodejs-todos-api-fa19f18dd56e.herokuapp.com/api/health
+  sleep 0.5  # aguarda 0.5s entre as requisições
+done
+```
+
+```bash
+for i in $(seq 1 500); do
+  echo "Requisição $i"
+  curl -s -o /dev/null -w "%{http_code}\n" https://app-nodejs-web-f71ea7759970.herokuapp.com/api/todos
+  sleep 0.5  # aguarda 0.5s entre as requisições
+done
+```
+
+## cURL em laço
+
+-P50 → executa até 50 requisições simultâneas.
+-n1 → envia uma chamada por linha.
+Ideal para testes de stress simples.
+
+```bash
+seq 1 500 | xargs -n1 -P50 -I{} curl -s -o /dev/null https://app-nodejs-todos-api-fa19f18dd56e.herokuapp.com/api/health
 ```
