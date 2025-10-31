@@ -37,6 +37,9 @@ jobs:
       #   run: npm test
 
       - name: Run unit tests (with coverage threshold)
+        env:
+          NODE_ENV: test
+          NEW_RELIC_ENABLED: "false"   # <- garante que o agente não roda      
         run: npm test -- --coverage --coverageReporters=lcov --coverageReporters=text-summary
 
       - name: Upload coverage artifact
@@ -120,6 +123,30 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install Heroku CLI
+        run: curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+
+      - name: Ensure Heroku container stack
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku stack:set container --app ${{ env.HEROKU_APP }}
+
+      # 🔐 Set/atualiza Config Vars de New Relic no app Heroku
+      - name: Configure New Relic (Heroku Config Vars)
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          NEW_RELIC_LICENSE_KEY: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
+        run: |
+          heroku config:set \
+            NEW_RELIC_LICENSE_KEY="${NEW_RELIC_LICENSE_KEY}" \
+            NEW_RELIC_APP_NAME="${{ env.HEROKU_APP }}" \
+            NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true \
+            NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED=true \
+            NEW_RELIC_LOG_LEVEL=info \
+            --app ${{ env.HEROKU_APP }}
+          # Se sua conta NR for EU, descomente:
+          # heroku config:set NEW_RELIC_HOST=eu01.nr-data.net --app ${{ env.HEROKU_APP }}      
+
       - name: Extract version from package.json
         id: meta
         run: |
@@ -148,9 +175,9 @@ jobs:
         run: |
           docker push "registry.heroku.com/${{ env.HEROKU_APP }}/web"
 
-      - name: Install Heroku CLI
-        run: |
-          curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+      # - name: Install Heroku CLI
+      #   run: |
+      #     curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
 
       - name: Release on Heroku
         env:

@@ -11,4 +11,9 @@ services:
       DB_FILE: "/app/db.json"        # arquivo dentro do container
       PUBLIC_DIR: "/app/public"      # frontend
       ALLOW_ORIGINS: "*"             # ajuste conforme seu domínio
+      NEW_RELIC_APP_NAME: "app-nodejs-todos-api"
+      NEW_RELIC_LICENSE_KEY: "${NEW_RELIC_LICENSE_KEY}"   # defina no seu ambiente
+      NEW_RELIC_DISTRIBUTED_TRACING_ENABLED: "true"
+      NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED: "true"
+      # NEW_RELIC_HOST: "eu01.nr-data.net"  # se sua conta é EU      
     restart: unless-stopped

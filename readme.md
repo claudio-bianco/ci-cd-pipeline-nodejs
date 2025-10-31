@@ -33,3 +33,11 @@ npm test
 ## 🧪 Heroku
 
 https://app-nodejs-web-f71ea7759970.herokuapp.com/
+
+
+Mudar o stack do app para container. Faça uma vez (manual ou no próprio workflow):
+```bash
+heroku login
+heroku stack:set container -a app-nodejs-todos-api
+heroku apps:info -a app-nodejs-todos-api   # verifique: Stack: container
+```

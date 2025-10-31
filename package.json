@@ -22,7 +22,8 @@
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "newrelic": "^13.6.2"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
@@ -36,7 +37,9 @@
     "verbose": true,
     "coverageProvider": "v8",
     "collectCoverage": true,
-    "collectCoverageFrom": ["server.js"],
+    "collectCoverageFrom": [
+      "server.js"
+    ],
     "coverageThreshold": {
       "global": {
         "statements": 80,

@@ -13,7 +13,10 @@ COPY . .
 ENV NODE_ENV=production \
     DB_FILE=/app/db.json \
     PUBLIC_DIR=/app/public \
-    ALLOW_ORIGINS=*
+    ALLOW_ORIGINS=* \
+    NEW_RELIC_APP_NAME=app-nodejs-todos-api \
+    NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true \
+    NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED=true
 
 # Expõe a porta padrão do servidor
 EXPOSE 3000
