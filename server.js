@@ -52,10 +52,10 @@ const DB_FILE = process.env.DB_FILE ? path.resolve(process.env.DB_FILE) : DEFAUL
 
 const TMP_FILE = DB_FILE + '.tmp';
 
-// ⚠️ Função “não testada”
-function apenasInterno(x) {
-  return x * 2;
-}
+// // ⚠️ Função “não testada”
+// function apenasInterno(x) {
+//   return x * 2;
+// }
 
 /* c8 ignore start */ // Utilitário de FS (infra), fora do escopo unitário
 function ensureDirFor(file) {
