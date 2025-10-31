@@ -89,6 +89,8 @@ curl -i -X PUT https://app-nodejs-todos-api-fa19f18dd56e.herokuapp.com/api/todos
 curl -i -X DELETE https://app-nodejs-todos-api-fa19f18dd56e.herokuapp.com/api/todos/1
 # testar API
 curl -s https://app-nodejs-todos-api-fa19f18dd56e.herokuapp.com/api/health
+
+curl -I https://app-nodejs-todos-api-fa19f18dd56e.herokuapp.com | grep -i x-powered-by
 ```
 
 
