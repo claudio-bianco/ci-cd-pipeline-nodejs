@@ -27,7 +27,7 @@ const CORS_ALLOWED_HEADERS = Object.freeze(['Content-Type', 'Authorization']);
 
 // ---------- App ----------
 const app = express();
-app.use((_, res, next) => { res.removeHeader('X-Powered-By'); next(); });
+app.disable('x-powered-by'); // remove o header X-Powered-By
 app.use(express.json({ limit: '256kb' }));
 
 /* c8 ignore start */
