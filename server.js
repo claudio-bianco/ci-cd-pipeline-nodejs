@@ -12,19 +12,19 @@ const __dirname = path.dirname(__filename);
 /* c8 ignore next */ // Porta default não precisa de teste unitário
 const PORT = process.env.PORT || 3000;
 
-// /* c8 ignore next */ // Parse de ALLOW_ORIGINS é detalhe de config
-// const ALLOW_ORIGINS = (process.env.ALLOW_ORIGINS || '*')
-//   .split(',')
-//   .map(s => s.trim())
-//   .filter(Boolean);
+/* c8 ignore next */ // Parse de ALLOW_ORIGINS é detalhe de config
+const ALLOW_ORIGINS = (process.env.ALLOW_ORIGINS || '*')
+  .split(',')
+  .map(s => s.trim())
+  .filter(Boolean);
 
-/* c8 ignore next */ // Parse de ALLOW_ORIGINS é detalhe de config  
-const ALLOW_ORIGINS = new Set(
-  (process.env.ALLOW_ORIGINS || '*')
-    .split(',')
-    .map(s => s.trim())
-    .filter(Boolean)
-);  
+// /* c8 ignore next */ // Parse de ALLOW_ORIGINS é detalhe de config  
+// const ALLOW_ORIGINS = new Set(
+//   (process.env.ALLOW_ORIGINS || '*')
+//     .split(',')
+//     .map(s => s.trim())
+//     .filter(Boolean)
+// );
 
 // ---------- App ----------
 const app = express();
