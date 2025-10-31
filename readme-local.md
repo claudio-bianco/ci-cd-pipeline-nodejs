@@ -110,6 +110,17 @@ for i in $(seq 1 500); do
 done
 ```
 
+```bash
+for i in $(seq 1 50); do
+  echo "Requisição $i"
+  curl -s -o /dev/null -w "%{http_code}\n" \
+  -X POST https://app-nodejs-todos-api-fa19f18dd56e.herokuapp.com/api/todos \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Item via curl","done":false}'
+  sleep 0.5  # aguarda 0.5s entre as requisições
+done
+```
+
 ## cURL em laço
 
 -P50 → executa até 50 requisições simultâneas.

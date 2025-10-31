@@ -1,5 +1,5 @@
 import 'newrelic'; // precisa ser o primeiro import
-import fs from 'fs';
+import fs from 'node:fs';
 import path from 'path';
 import express from 'express';
 import cors from 'cors';
@@ -97,9 +97,6 @@ const now = () => new Date().toISOString().replace('T',' ').slice(0,19);
 const api = express.Router();
 
 api.get('/todos', (_req, res) => {
-  // if (req.path.startsWith('/api/')) {
-  //   newrelic.setTransactionName(`${req.method} ${req.path}`);
-  // }
   const list = DB.todos.slice().sort((a,b) => b.id - a.id).map(x => ({ ...x, done: !!x.done }));
   res.json(list);
 });
