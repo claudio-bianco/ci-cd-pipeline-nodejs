@@ -4,6 +4,7 @@ import path from 'node:path';
 import express from 'express';
 import cors from 'cors';
 import { fileURLToPath } from 'node:url';
+import helmet from 'helmet';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,6 +28,9 @@ const CORS_ALLOWED_HEADERS = Object.freeze(['Content-Type', 'Authorization']);
 
 // ---------- App ----------
 const app = express();
+app.use(helmet());                 // vários headers de segurança
+app.use(helmet.hidePoweredBy());   // garante remoção do X-Powered-By
+
 app.use(express.json({ limit: '256kb' }));
 
 /* c8 ignore start */
