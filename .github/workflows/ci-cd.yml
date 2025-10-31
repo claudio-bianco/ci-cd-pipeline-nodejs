@@ -65,6 +65,32 @@ jobs:
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.coverage.exclusions=**/*.test.js,__tests__/**,public/**,jest.config.*
 
+      - name: Aguardar e verificar Quality Gate
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_PROJECT_KEY: ${{ env.SONAR_PROJECT_KEY }}
+        run: |
+          echo "Aguardando análise ser processada..."
+          sleep 20
+          STATUS=""
+          for i in {1..15}; do
+            STATUS=$(curl -s -u "$SONAR_TOKEN:" \
+              "https://sonarcloud.io/api/qualitygates/project_status?projectKey=$SONAR_PROJECT_KEY" \
+              | jq -r '.projectStatus.status')
+            echo "Status atual: $STATUS"
+            if [[ "$STATUS" == "OK" ]]; then
+              echo "✅ Quality Gate aprovado"
+              exit 0
+            elif [[ "$STATUS" == "ERROR" ]]; then
+              echo "❌ Quality Gate reprovado"
+              exit 1
+            fi
+            echo "⏳ Ainda em análise... aguardando 10s"
+            sleep 10
+          done
+          echo "⚠️ Timeout esperando resultado do SonarCloud"
+          exit 1
+
   build_and_push:
     name: Build & Push Docker
     needs: [test]
