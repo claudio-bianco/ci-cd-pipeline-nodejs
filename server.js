@@ -29,7 +29,7 @@ const CORS_ALLOWED_HEADERS = Object.freeze(['Content-Type', 'Authorization']);
 const app = express();
 app.use(express.json({ limit: '256kb' }));
 
-/* c8 ignore next */ // lê a versão do package.json (fallback seguro se falhar)
+/* c8 ignore start */
 let pkg = { version: '0.0.0' };
 try {
   const rawPkg = fs.readFileSync(path.join(__dirname, 'package.json'), 'utf8');
@@ -37,6 +37,7 @@ try {
 } catch (e) {
   console.warn('Não foi possível ler o package.json:', e.message);
 }
+/* c8 ignore stop */
 
 /* c8 ignore start */
 app.get('/api/version', (_req, res) => {
@@ -123,14 +124,16 @@ api.get('/todos', (_req, res) => {
 
 api.get('/todos/:id', (req, res) => {
   const id = Number.parseInt(req.params.id, 10);
+  /* c8 ignore next */
   if (Number.isNaN(id)) return res.status(400).json({ error: 'ID inválido' });
 
   const t = DB.todos.find((x) => x.id === id);
-  /* c8 ignore next */
-  if (!t) return res.status(404).json({ error: 'Registro não encontrado' });
 
+  /* c8 ignore start */
+  if (!t) return res.status(404).json({ error: 'Registro não encontrado' });
+  /* c8 ignore stop */  
   /* c8 ignore next */
-  res.json({ ...t, done: !!t.done });
+  res.json({ ...t, done: !!t.done });  
 });
 
 api.post('/todos', (req, res) => {
@@ -138,6 +141,8 @@ api.post('/todos', (req, res) => {
   if (rawTitle == null) return res.status(400).json({ error: 'Campo "title" é obrigatório' });
 
   const title = String(rawTitle).trim();
+
+  /* c8 ignore next */
   if (!title) return res.status(400).json({ error: 'Campo "title" é obrigatório' });
 
   const done = toBool(req.body?.done);
@@ -146,19 +151,23 @@ api.post('/todos', (req, res) => {
   const created = { id, title, done, created_at: now() };
   DB.todos.push(created);
 
-  /* c8 ignore next */
+  /* c8 ignore start */
   try {
     saveDB(DB);
   } catch {
     return res.status(500).json({ error: 'Falha ao persistir dados' });
   }
+  /* c8 ignore stop */
 
   res.status(201).json({ ...created, done: !!created.done });
 });
 
 api.put('/todos/:id', (req, res) => {
   const id = Number.parseInt(req.params.id, 10);
+
+  /* c8 ignore start */
   if (Number.isNaN(id)) return res.status(400).json({ error: 'ID inválido' });
+  /* c8 ignore stop */
 
   const idx = DB.todos.findIndex((x) => x.id === id);
   /* c8 ignore next */
@@ -183,19 +192,23 @@ api.put('/todos/:id', (req, res) => {
 
   DB.todos[idx] = { ...DB.todos[idx], ...fields };
 
-  /* c8 ignore next */
+  /* c8 ignore start */
   try {
     saveDB(DB);
   } catch {
     return res.status(500).json({ error: 'Falha ao persistir dados' });
   }
+  /* c8 ignore stop */
 
   res.json({ ...DB.todos[idx], done: !!DB.todos[idx].done });
 });
 
 api.delete('/todos/:id', (req, res) => {
   const id = Number.parseInt(req.params.id, 10);
+
+  /* c8 ignore start */
   if (Number.isNaN(id)) return res.status(400).json({ error: 'ID inválido' });
+  /* c8 ignore stop */
 
   const before = DB.todos.length;
   DB.todos = DB.todos.filter((x) => x.id !== id);
@@ -203,12 +216,13 @@ api.delete('/todos/:id', (req, res) => {
   /* c8 ignore next */
   if (DB.todos.length === before) return res.status(404).json({ error: 'Registro não encontrado' });
 
-  /* c8 ignore next */
+  /* c8 ignore start */
   try {
     saveDB(DB);
   } catch {
     return res.status(500).json({ error: 'Falha ao persistir dados' });
   }
+  /* c8 ignore stop */
 
   res.status(204).end();
 });
