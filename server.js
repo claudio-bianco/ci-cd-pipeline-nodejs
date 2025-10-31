@@ -29,13 +29,13 @@ const CORS_ALLOWED_HEADERS = Object.freeze(['Content-Type', 'Authorization']);
 const app = express();
 app.use(express.json({ limit: '256kb' }));
 
-// lê a versão do package.json (fallback seguro se falhar)
+/* c8 ignore next */ // lê a versão do package.json (fallback seguro se falhar)
 let pkg = { version: '0.0.0' };
 try {
   const rawPkg = fs.readFileSync(path.join(__dirname, 'package.json'), 'utf8');
   pkg = JSON.parse(rawPkg);
 } catch (e) {
-  // Mantém fallback; não derruba o processo
+  console.warn('Não foi possível ler o package.json:', e.message);
 }
 
 /* c8 ignore start */

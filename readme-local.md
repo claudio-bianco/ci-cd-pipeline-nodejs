@@ -78,15 +78,15 @@ docker compose up -d
 
 ```bash
 # Listar
-curl -i https://app-nodejs-web-f71ea7759970.herokuapp.com/api/todos
+curl -i https://app-nodejs-todos-api-fa19f18dd56e.herokuapp.com/api/todos
 # Criar
-curl -i -X POST https://app-nodejs-web-f71ea7759970.herokuapp.com/api/todos -H "Content-Type: application/json" -d '{"title":"Item via curl","done":false}'
+curl -i -X POST https://app-nodejs-todos-api-fa19f18dd56e.herokuapp.com/api/todos -H "Content-Type: application/json" -d '{"title":"Item via curl","done":false}'
 # Buscar
-curl -i https://app-nodejs-web-f71ea7759970.herokuapp.com/api/todos/1
+curl -i https://app-nodejs-todos-api-fa19f18dd56e.herokuapp.com/api/todos/1
 # Atualizar
-curl -i -X PUT https://app-nodejs-web-f71ea7759970.herokuapp.com/api/todos/1 -H "Content-Type: application/json" -d '{"title":"Atualizado","done":true}'
+curl -i -X PUT https://app-nodejs-todos-api-fa19f18dd56e.herokuapp.com/api/todos/1 -H "Content-Type: application/json" -d '{"title":"Atualizado","done":true}'
 # Excluir
-curl -i -X DELETE https://app-nodejs-web-f71ea7759970.herokuapp.com/api/todos/1
+curl -i -X DELETE https://app-nodejs-todos-api-fa19f18dd56e.herokuapp.com/api/todos/1
 # testar API
 curl -s https://app-nodejs-todos-api-fa19f18dd56e.herokuapp.com/api/health
 ```
