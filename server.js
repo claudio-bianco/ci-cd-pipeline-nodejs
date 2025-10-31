@@ -18,14 +18,6 @@ const ALLOW_ORIGINS = (process.env.ALLOW_ORIGINS || '*')
   .map(s => s.trim())
   .filter(Boolean);
 
-// /* c8 ignore next */ // Parse de ALLOW_ORIGINS é detalhe de config  
-// const ALLOW_ORIGINS = new Set(
-//   (process.env.ALLOW_ORIGINS || '*')
-//     .split(',')
-//     .map(s => s.trim())
-//     .filter(Boolean)
-// );
-
 // ---------- App ----------
 const app = express();
 app.use(express.json({ limit: '256kb' }));
