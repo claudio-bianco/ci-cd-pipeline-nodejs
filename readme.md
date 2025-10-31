@@ -32,7 +32,7 @@ npm test
 
 ## 🧪 Heroku
 
-https://app-nodejs-web-f71ea7759970.herokuapp.com/
+https://app-nodejs-todos-api-fa19f18dd56e.herokuapp.com/
 
 
 Mudar o stack do app para container. Faça uma vez (manual ou no próprio workflow):
