@@ -113,7 +113,7 @@ done
 ```
 
 ```bash
-for i in $(seq 1 50); do
+for i in $(seq 1 20); do
   echo "Requisição $i"
   curl -s -o /dev/null -w "%{http_code}\n" \
   -X POST https://app-nodejs-todos-api-fa19f18dd56e.herokuapp.com/api/todos \
